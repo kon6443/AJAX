@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+
+
+{% block title %}
+Home
+{% endblock %}
+
+
+
+{% block content %}
+<h1 align = "center">Welcome to GRAPP</h1>
+<h2 style="font-size: 24px; text-align: center; color: darkred;"> Graduation Program App</h2>
+<body style="font-size: 20px; text-align: center">
+    Welcome to the app that shows you admission requirements <br />
+    for graduate programs from the top schools around the world.<br />
+</body>
+<p style="text-align:left; vertical-align:bottom; font-size: 16px; padding-top:600px;">
+    Created by: Zihui Chen, Camaron Edgecomb, Draven George, Junyeong Jang, Onam Kwon, Hao Lan, and Israel Guerra Loza
+</p>
+        <table>
+            <tr>
+                {% for header in headings %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+                {% for row in data %}
+            <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+
+{% endblock %}

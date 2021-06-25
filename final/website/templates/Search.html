@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}
+Manual
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<form name = "pass_data" action ="/requirements" method="post">    <!-- the search boxes, just like what we have in project folder -->
+    <label for="Country">Country</label>
+    <br> <input name="Country" type="text" id="Country" placeholder="Enter Country" oninput='postData()' />  oninput:  <span id="result"></span>
+    	<script>
+		function postData() {	    	
+			var country = $("#Country").val();
+			console.log(country);
+			result.innerHTML = country;
+	    	$.ajax({
+				type: "POST",
+				url: 'autoCompletion.py',
+				data:{givenValue: 'country'},
+				//dataType: 'text',
+				success: callbackFunc
+			});
+			
+		}
+
+		function callbackFunc(response) {
+			//result.innerHTML = response;
+			console.log("This is callbackFunction.");
+			console.log(response);
+		}
+		
+	</script>
+    
+    <br>
+
+    <label for="State/Province">State/Province</label>
+    <br> <input name="State/Province" type="text" id="State/Province" placeholder="Enter State/Province"/> <br>
+
+    <label for="County">County</label>
+    <br> <input name="County" type="text" id="County" placeholder="Enter County" /> <br>
+
+    <label for="University">University*</label>
+    <br> <input name="University" type="text" id="University" class ="input" placeholder="Enter University Name" /> <br> <br>
+
+    <p>* Indicates a required field</p>
+    
+    <input type="reset" value="Reset"/>
+    <button class="button" type= "submit" value="Submit">Submit</button> <br> <br>
+
+</form>
+
+
+
+<script>
+    let input = document.querySelector(".input");
+    let button = document.querySelector(".button");
+
+    button.disabled = true;
+
+    input.addEventListener("change", stateHandle);
+
+    function stateHandle() {
+        if(document.querySelector(".input").value==="") {
+            button.disabled = true;
+        }
+        else {
+            button.disabled = false;
+        }
+    }
+</script>
+
+<br> <br> <br> <br>
+
+<input type="button" value="Back" onclick="history.back(-1);"> <br> <br>
+{% endblock %}

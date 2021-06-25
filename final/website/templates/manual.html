@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}
+Manual Entry
+{% endblock %}
+
+
+{% block content %}
+
+<h1 align = "center">Welcome to GRAPP</h1>
+<h2 style="font-size: 24px; text-align: center; color: darkred;"> Graduation Program App</h2> <br>
+<h3 style="font-size: 20px; text-align: center;">Manual Entry</h3>
+
+<form name = "myForm" action="/requirements" method="post" target ="_blank" id="myForm">
+	<div style="text-align: center;">
+		<select id="countrySel" name = "Country" size="1" required>
+			<option value="" selected="selected">-- Select Country --</option>
+		</select>
+	  
+		<select id="stateSel" name = "State/Province" size="1" required>
+			<option value="" selected="selected">-- Select State/Province--</option>
+		</select>  
+	
+		<select id="countySel" name = "County" size="1" required>
+			<option value="" selected="selected">-- Select County--</option>
+		</select>
+	
+		<select id="uniSel" name = "University" size="1"  class ="input">
+			<option value="" selected="selected">-- Select University--</option>
+		</select>
+	</div>
+	
+	<div style="text-align: right;">
+		<input type="reset" value="Reset"/>
+		<button class="button" type= "submit" value="Submit">Submit</button>
+	</div>
+</form>
+
+
+
+<script>
+let input = document.querySelector(".input");
+    let button = document.querySelector(".button");
+
+    button.disabled = true;
+
+    input.addEventListener("change", stateHandle);
+
+    function stateHandle() {
+        if(document.querySelector(".input").value==="") {
+            button.disabled = true;
+        }
+        else {
+            button.disabled = false;
+        }
+    }
+
+var countryStateInfo = {
+	"Australia": {
+		"Victoria": {
+			"Bourke": ["University of Melbourne"]
+		},
+	},
+  
+	"Canada": {
+		"Ontario": {
+			"Toronto": ["University of Toronto"]
+		},
+	},
+  
+  "UK": {
+		"England": {
+			"Oxfordshire": ["University of Oxford"],
+      "Cambridgeshire":["University of Cambridge"]
+		},
+	},
+   "USA": {
+		"Massachusetts": {
+			"Middlesex": ["University of Harvard"]
+			},
+      	"California ": {
+      	"Santa Clara": ["Stanford"],
+      	"San Francisco Bay":["University of California-Berkeley"]
+      	},  	
+      	"New York":{
+      	"New York":["Columbia University"]
+      	},
+      	"Washington":{
+      	"King":["University of Washington"]
+		},
+},
+ 
+};
+
+
+window.onload = function () {
+	
+	//Get html elements
+	var countrySel = document.getElementById("countrySel");
+	var stateSel = document.getElementById("stateSel");	
+	var countySel = document.getElementById("countySel");
+	var uniSel = document.getElementById("uniSel");
+	
+	//Load countries
+	for (var country in countryStateInfo) {
+		countrySel.options[countrySel.options.length] = new Option(country, country);
+	}
+	
+	//Country Changed
+	countrySel.onchange = function () {
+		 
+		 stateSel.length = 1; // remove all options bar first
+		 countySel.length = 1; // remove all options bar first
+		 uniSel.length = 1; // remove all options bar first
+		 
+		 if (this.selectedIndex < 1)
+			 return; // done
+		 
+		 for (var state in countryStateInfo[this.value]) {
+			 stateSel.options[stateSel.options.length] = new Option(state, state);
+		 }
+	}
+	
+	//State Changed
+	stateSel.onchange = function () {		 
+		 
+		 countySel.length = 1; // remove all options bar first
+		 uniSel.length = 1; // remove all options bar first
+		 
+		 if (this.selectedIndex < 1)
+			 return; // done
+		 
+		 for (var county in countryStateInfo[countrySel.value][this.value]) {
+			 countySel.options[countySel.options.length] = new Option(county, county);
+		 }
+	}
+	
+	//County Changed
+	countySel.onchange = function () {
+		uniSel.length = 1; // remove all options bar first
+		
+		if (this.selectedIndex < 1)
+			return; // done
+		
+		var uni = countryStateInfo[countrySel.value][stateSel.value][this.value];
+		for (var i = 0; i < uni.length; i++) {
+			uniSel.options[uniSel.options.length] = new Option(uni[i], uni[i]);
+		}
+	}	
+}
+</script>
+
+
+<br> <br>
+
+<script>
+	function userInput(button) {
+		button.prop('disabled', true)
+	}
+</script>
+{% endblock %}
